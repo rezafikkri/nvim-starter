@@ -1,73 +1,58 @@
-vim.api.nvim_create_user_command('GitClonePacker', function()
-  local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-  local packer_url = 'https://github.com/wbthomason/packer.nvim'
-  vim.fn.system({'git', 'clone', '--depth', '1', packer_url, install_path})
-  vim.cmd('quitall')
-end, {})
+local lazy = {}
 
-local ok, packer = pcall(require, 'packer')
-if not ok then return end
+function lazy.install(path)
+  if not vim.loop.fs_stat(path) then
+    print('Installing lazy.nvim....')
+    vim.fn.system({
+      'git',
+      'clone',
+      '--filter=blob:none',
+      'https://github.com/folke/lazy.nvim.git',
+      '--branch=stable', -- latest stable release
+      path,
+    })
+  end
+end
 
-packer.startup(function(use)
-  use {'wbthomason/packer.nvim'}            -- Plugin manager
-  use {'folke/tokyonight.nvim'}             -- Colorscheme
-  use {'williamboman/mason.nvim'}           -- Installer for external tools
-  use {'williamboman/mason-lspconfig.nvim'} -- mason extension for lspconfig
-  use {'neovim/nvim-lspconfig'}             -- LSP support
-  use {'hrsh7th/nvim-cmp'}                  -- Autocomplete engine
-  use {'hrsh7th/cmp-nvim-lsp'}              -- Completion source
-  use {'saadparwaiz1/cmp_luasnip'}          -- Completion source
-  use {'hrsh7th/cmp-buffer'}                -- Completion source
-  use {'L3MON4D3/LuaSnip'}                  -- Snippet engine
-  use {'rafamadriz/friendly-snippets'}      -- Snippet collection
-end)
+function lazy.setup(plugins)
+  -- You can "comment out" the line below after lazy.nvim is installed
+  lazy.install(lazy.path)
 
-vim.opt.termguicolors = true
-vim.cmd('colorscheme tokyonight')
+  vim.opt.rtp:prepend(lazy.path)
+  require('lazy').setup(plugins, lazy.opts)
+end
 
-require('luasnip.loaders.from_vscode').lazy_load()
+lazy.path = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+lazy.opts = {}
 
-vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
+lazy.setup({
+  {'neovim/nvim-lspconfig'},             -- LSP configurations
+  {'williamboman/mason.nvim'},           -- Installer for external tools
+  {'williamboman/mason-lspconfig.nvim'}, -- mason extension for lspconfig
+  {'hrsh7th/nvim-cmp'},                  -- Autocomplete engine
+  {'hrsh7th/cmp-nvim-lsp'},              -- Completion source for LSP
+  {'L3MON4D3/LuaSnip'},                  -- Snippet engine
+})
+
+vim.cmd.colorscheme('habamax')
 
 local cmp = require('cmp')
 local luasnip = require('luasnip')
 
 cmp.setup({
+  sources = {
+    {name = 'nvim_lsp'},
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-d>'] = cmp.mapping.scroll_docs(4),
+  }),
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body)
     end
   },
-  sources = cmp.config.sources({
-    {name = 'nvim_lsp'},
-    {name = 'luasnip'},
-  },{
-    {name = 'buffer'},
-  }),
-  mapping = cmp.mapping.preset.insert({
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<Enter>'] = cmp.mapping.confirm({select = false}),
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end, {'i', 's'}),
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, {'i', 's'}),
-  }),
 })
 
 local lsp_cmds = vim.api.nvim_create_augroup('lsp_cmds', {clear = true})
@@ -86,9 +71,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
     bufmap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>')
     bufmap('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
     bufmap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
-    bufmap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
+    bufmap('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
     bufmap('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>')
-    bufmap('n', '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>')
+    bufmap({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>')
     bufmap('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>')
     bufmap('x', '<F4>', '<cmd>lua vim.lsp.buf.range_code_action()<cr>')
     bufmap('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')

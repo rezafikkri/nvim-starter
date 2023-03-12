@@ -35,28 +35,14 @@ nvim -c 'edit $MYVIMRC'
 
 * Copy the content of `init.lua` in this repository into your own `init.lua`.
 
-* Download the plugin manager using this command.
-
-```sh
-nvim --headless +GitClonePacker
-```
-
-* Open Neovim. Plugins are not installed yet, so expect an error message. Dismiss the error message. Execute this command inside Neovim.
-
-```vim
-:PackerSync
-```
-
-* Wait until plugins are downloaded then restart Neovim.
-
-* When you open Neovim `mason.nvim` will download language servers listed in the configuration. Use the command `:Mason` to check the download process of language servers.
+* When you open Neovim `lazy.nvim` will be installed automatically. Then your plugins will be installed. Then, `mason.nvim` will download language servers listed in the configuration. Use the command `:Mason` to check the download process of language servers.
 
 ### Plugins directory
 
 Your plugins will be installed in a separate directory from your configuration. The location of this directory depends on your operating system and environment variables, so you'll need to execute this command to know where that is.
 
 ```sh
-nvim --headless -c 'echo stdpath("data") . "/site/pack/packer" | quit'
+nvim --headless -c 'echo stdpath("data") . "/lazy/lazy.nvim" | quit'
 ```
 
 ## Keybindings
@@ -69,7 +55,7 @@ nvim --headless -c 'echo stdpath("data") . "/site/pack/packer" | quit'
 | Normal | `gi` | Lists all the implementations for the symbol under the cursor. |
 | Normal | `go` | Jumps to the definition of the type symbol |
 | Normal | `gr` | Lists all the references. |
-| Normal | `<Ctrl-k>` | Displays a function's signature information. |
+| Normal | `gs` | Displays a function's signature information. |
 | Normal | `<F2>` | Renames all references to the symbol under the cursor. |
 | Normal | `<F3>` | Format code in current buffer. |
 | Normal | `<F4>` | Selects a code action available at the current cursor position. |
@@ -82,29 +68,23 @@ nvim --headless -c 'echo stdpath("data") . "/site/pack/packer" | quit'
 
 | Mode | Key | Action |
 | --- | --- | --- |
+| Insert | `<Ctrl-Space>` | Trigger completion. |
+| Insert | `<Ctrl-y>` | Confirm completion. |
+| Insert | `<Ctrl-e>` | Cancel completion. |
 | Insert | `<Ctrl-p>` | Move to previous item. |
 | Insert | `<Ctrl-n>` | Move to next item. |
-| Insert | `<Ctrl-d>` | Scroll up in documentation window. |
-| Insert | `<Ctrl-f>` | Scroll down in documentation window. |
-| Insert | `<Ctrl-Space>` | Trigger completion. |
-| Insert | `<Ctrl-e>` | Cancel completion. |
-| Insert | `<Enter>` | Confirm completion. |
-| Insert | `<Tab>` | If completion menu is open go to next item. |
-| Insert | `<Shift-Tab>` | If completion menu is open go to previous item. |
+| Insert | `<Ctrl-u>` | Scroll up in documentation window. |
+| Insert | `<Ctrl-d>` | Scroll down in documentation window. |
 
 ## Plugin list
 
 | Name | Description  |
 | --- | --- |
-| [packer.nvim](https://github.com/wbthomason/packer.nvim) | Plugin manager. |
-| [tokyonight.nvim](https://github.com/folke/tokyonight.nvim) | Collection of colorschemes. |
+| [lazy.nvim](https://github.com/folke/lazy.nvim) | Plugin manager. |
 | [mason.nvim](https://github.com/williamboman/mason.nvim) | Portable package manager for Neovim. |
 | [mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim) | Integrates nvim-lspconfig and mason.nvim. |
 | [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) | Quickstart configs for Neovim's LSP client.  |
 | [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) | Autocompletion engine. |
 | [cmp-nvim-lsp](https://github.com/hrsh7th/cmp-nvim-lsp) | nvim-cmp source. Show suggestions based on LSP servers queries. |
-| [cmp_luasnip](https://github.com/saadparwaiz1/cmp_luasnip) | nvim-cmp source. Show suggestions based on installed snippets. |
-| [cmp-buffer](https://github.com/hrsh7th/cmp-buffer) | nvim-cmp source. Suggest words in the current buffer. |
 | [LuaSnip](https://github.com/L3MON4D3/LuaSnip) | Snippet engine. |
-| [friendly-snippets](https://github.com/rafamadriz/friendly-snippets) | Collection of snippets. |
 
