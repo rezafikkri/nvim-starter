@@ -12,7 +12,7 @@ The following language servers are configured:
 * Neovim v0.8 or greater.
 * git.
 * [tsserver](https://github.com/theia-ide/typescript-language-server). Typescript language server.
-* [lua_ls](https://github.com/LuaLS/lua-language-server)
+* [lua_ls](https://github.com/LuaLS/lua-language-server). Lua language server.
 
 ## Installation
 
