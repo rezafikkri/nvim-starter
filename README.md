@@ -1,43 +1,54 @@
 # Neovim Starter
 
-## Configurations
+Example lua configuration showing **one way** to setup LSP servers without plugins. 
 
-* [00-minimal](https://github.com/VonHeikemen/nvim-starter/tree/00-minimal): Small configuration without third party plugins.
-* [01-base](https://github.com/VonHeikemen/nvim-starter/tree/01-base): Small configuration that includes a plugin manager. It can provide a good base to start your own configuration.
-* [02-opinionated](https://github.com/VonHeikemen/nvim-starter/tree/02-opinionated): Opinionated configuration. It includes a combination of popular plugins. For the people who are looking to make Neovim their main editor but don't want to start from scratch. Plugins related to "code intellisense" are not included in this config.
-* [03-lsp](https://github.com/VonHeikemen/nvim-starter/tree/03-lsp): Example configuration showing how to configure the built-in LSP client with autocompletion. It is based on `02-opinionated`.
-* [04-lsp-installer](https://github.com/VonHeikemen/nvim-starter/tree/04-lsp-installer): Same as `03-lsp` but uses [mason.nvim](https://github.com/williamboman/mason.nvim) to install language servers.
-* [05-modular](https://github.com/VonHeikemen/nvim-starter/tree/05-modular): Same as `04-lsp-installer` but everything is split in modules.
+The following language servers are configured:
 
-## Other template configurations
+* tsserver
+* lua_ls
 
-* [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim)
-* [nvim-basic-ide](https://github.com/LunarVim/nvim-basic-ide)
-* [cosynvim](https://github.com/glepnir/cosynvim)
+## Requirements
 
-## Example setups
+* Neovim v0.8 or greater.
+* git.
+* [tsserver](https://github.com/theia-ide/typescript-language-server). Typescript language server.
+* [lua_ls](https://github.com/LuaLS/lua-language-server)
 
-* [lsp-cmp](https://github.com/VonHeikemen/nvim-starter/tree/xx-lsp-cmp): Minimal setup with [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) + [nvim-cmp](https://github.com/hrsh7th/nvim-cmp).
-* [lsp-zero](https://github.com/VonHeikemen/nvim-starter/tree/xx-lsp-zero): Minimal setup for LSP using [lsp-zero.nvim](https://github.com/VonHeikemen/lsp-zero.nvim).
-* [mason.nvim](https://github.com/VonHeikemen/nvim-starter/tree/xx-mason): Minimal setup with mason.nvim.
+## Installation
 
-## Learn how to configure Neovim
+* Backup your existing configuration if you have one.
 
-* [Build your first Neovim configuration in lua](https://vonheikemen.github.io/devlog/tools/build-your-first-lua-config-for-neovim/)
-* [Neovim: Plugins to get started](https://vonheikemen.github.io/devlog/tools/neovim-plugins-to-get-started/)
-* [Setup nvim-lspconfig + nvim-cmp](https://vonheikemen.github.io/devlog/tools/setup-nvim-lspconfig-plus-nvim-cmp/)
-* [Move from init.vim to init.lua](https://vonheikemen.github.io/devlog/tools/configuring-neovim-using-lua/)
-* [nvim-lua-guide](https://github.com/nanotee/nvim-lua-guide)
+* Create an `init.lua` file in your system. Use this command if you don't know the specific location of Neovim's configuration folder.
 
-## Videos
+```sh
+nvim --headless -c 'call mkdir(stdpath("config"), "p") | exe "edit" stdpath("config") . "/init.lua" | write | quit'
+```
 
-* [Opinionated setup guide (for mac or linux)](https://www.youtube.com/watch?v=vdn_pKJUda8)
-* [Neovim Builtin LSP Setup Guide](https://www.youtube.com/watch?v=puWgHa7k3SY) 
-* [Debugging in Neovim](https://www.youtube.com/watch?v=0moS8UHupGc)
-* [Vim As Your Editor - Introduction](https://www.youtube.com/watch?v=X6AR2RMB5tE) 
-* [Vim As Your Editor - Horizontal Movements](https://youtu.be/5JGVtttuDQA) 
-* [Vim As Your Editor - Vertical Movements](https://www.youtube.com/watch?v=KfENDDEpCsI) 
-* [Mastering The Macro Machine - Vimconf.live 2021](https://www.youtube.com/watch?v=ZMA6MghrpWM) 
-* [Neovim lua plugin from scratch](https://www.youtube.com/watch?v=n4Lp4cV8YR0)
-* [Neovim - Rust IDE](https://www.youtube.com/watch?v=gfQ6Ae4lvL0)
-* [Neovim - Setting up a Java IDE](https://www.youtube.com/watch?v=0q_MKUynUck)
+* Open your configuration file with Neovim.
+
+```sh
+nvim -c 'edit $MYVIMRC'
+```
+
+* Copy the content of `init.lua` in this repository into your own `init.lua`.
+
+## Keybindings
+
+| Mode | Key | Action |
+| --- | --- | --- |
+| Insert | `<Ctrl+Space>` | Trigger completion menu when LSP server is active. |
+| Normal | `K` | Displays hover information about the symbol under the cursor. |
+| Normal | `gd` | Jump to the definition. |
+| Normal | `gD` | Jump to declaration. |
+| Normal | `gi` | Lists all the implementations for the symbol under the cursor. |
+| Normal | `go` | Jumps to the definition of the type symbol |
+| Normal | `gr` | Lists all the references. |
+| Normal | `gs` | Displays a function's signature information. |
+| Normal | `<F2>` | Renames all references to the symbol under the cursor. |
+| Normal | `<F3>` | Format code in current buffer. |
+| Normal | `<F4>` | Selects a code action available at the current cursor position. |
+| Visual | `<F4>` | Selects a code action available in the selected text. |
+| Normal | `gl` | Show diagnostics in a floating window. |
+| Normal | `[d` | Move to the previous diagnostic. |
+| Normal | `]d` | Move to the next diagnostic. |
+
