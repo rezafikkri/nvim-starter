@@ -5,23 +5,33 @@ vim.opt.completeopt = {'menu', 'menuone', 'noinsert'}
 
 local lsp_cmds = vim.api.nvim_create_augroup('lsp_cmds', {clear = true})
 
-local function lsp_setup(user_opts)
+local function lsp_setup(opts)
   local desc = 'Attach LSP server'
   local defaults = {capabilities = vim.lsp.protocol.make_client_capabilities()}
 
-  local config = vim.tbl_deep_extend('force', defaults, user_opts)
+  local config = vim.tbl_deep_extend('force', defaults, opts)
+
+  if config.filetypes == nil then
+    return
+  end
+
+  local get_root = opts.root_dir
+  if type(get_root) == 'function' then
+    config.root_dir = nil
+  end
 
   if config.name then
     desc = string.format('Attach LSP: %s', config.name)
   end
 
   local start_client = function()
-    if config.root_files then
-      local path = vim.fs.find(config.root_files, {upward = true, limit = 1})
-      config.root_dir = vim.fs.dirname(path[1])
+    if get_root then
+      config.root_dir = get_root()
     end
 
-    vim.lsp.start(config)
+    if config.root_dir then
+      vim.lsp.start(config)
+    end
   end
 
   vim.api.nvim_create_autocmd('FileType', {
@@ -30,6 +40,26 @@ local function lsp_setup(user_opts)
     desc = desc,
     callback = start_client
   })
+end
+
+local function find_first(list)
+  local result = vim.fs.find(list, {
+    upward = true,
+    limit = 1,
+    stop = vim.env.HOME,
+  })
+
+  local path = result[1]
+
+  if path == nil then
+    return
+  end
+
+  if vim.fn.isdirectory(path) == 1 then
+    return path
+  end
+
+  return vim.fs.dirname(path)
 end
 
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -64,7 +94,9 @@ lsp_setup({
   name = 'lua_ls',
   cmd = {'lua-language-server'},
   filetypes = {'lua'},
-  root_files = {'.luarc.json'},
+  root_dir = function()
+    return find_first({'.luarc.json'})
+  end,
 })
 
 lsp_setup({
@@ -78,6 +110,8 @@ lsp_setup({
     'typescriptreact',
     'typescript.tsx'
   },
-  root_files = {'package.json'},
+  root_dir = function()
+    return find_first({'package.json'})
+  end,
 })
 
