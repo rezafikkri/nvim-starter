@@ -51,7 +51,7 @@ local function lsp_setup(opts)
     end
   end
 
-  vim.api.nvim_create_autocmd('FileType', {
+  setup_id = vim.api.nvim_create_autocmd('FileType', {
     group = lsp_cmds,
     pattern = config.filetypes,
     desc = desc,
