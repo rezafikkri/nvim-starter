@@ -27,7 +27,12 @@ lazy.opts = {}
 
 lazy.setup({
   {'neovim/nvim-lspconfig'},             -- LSP configurations
-  {'williamboman/mason.nvim'},           -- Installer for external tools
+  {                                      -- Installer for external tools
+    'williamboman/mason.nvim',
+    build = function()
+      pcall(vim.cmd, 'MasonUpdate')
+    end,
+  },
   {'williamboman/mason-lspconfig.nvim'}, -- mason extension for lspconfig
   {'hrsh7th/nvim-cmp'},                  -- Autocomplete engine
   {'hrsh7th/cmp-nvim-lsp'},              -- Completion source for LSP
