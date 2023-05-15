@@ -7,9 +7,7 @@ local Plugins = {
 
   -- Themes
   {'folke/tokyonight.nvim'},
-  {'joshdick/onedark.vim'},
-  {'tanvirtin/monokai.nvim'},
-  {'lunarvim/darkplus.nvim'},
+  {'navarasu/onedark.nvim'},
 }
 
 return Plugins
