@@ -9,6 +9,9 @@ Plugin.opts = {
   highlight = {
     enable = true,
   },
+	autotag = {
+    enable = true,
+  },
   -- :help nvim-treesitter-textobjects-modules
   textobjects = {
     select = {
