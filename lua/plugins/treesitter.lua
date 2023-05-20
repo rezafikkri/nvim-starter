@@ -35,6 +35,9 @@ Plugin.opts = {
     'css',
     'json'
   },
+	indent = {
+  	enable = true,
+  },
 }
 
 function Plugin.config(name, opts)

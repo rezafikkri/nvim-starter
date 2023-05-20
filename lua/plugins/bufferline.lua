@@ -8,7 +8,11 @@ Plugin.opts = {
   options = {
     mode = 'buffers',
     offsets = {
-      {filetype = 'NvimTree'}
+      {
+				filetype = 'NvimTree',
+				text = 'Explorer',
+				separator = true,
+			}
     },
   },
   -- :help bufferline-highlights

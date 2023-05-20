@@ -12,9 +12,13 @@ Plugin.opts = {
     component_separators = '|',
     section_separators = '',
     disabled_filetypes = {
-      statusline = {'NvimTree'}
-    }
+			"NvimTree",
+			"toggleterm",
+		},
+		always_divide_middle = true,
   },
+	tabline = {},
+	extensions = {},
 }
 
 function Plugin.init()
