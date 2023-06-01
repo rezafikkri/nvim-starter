@@ -9,7 +9,7 @@ Plugin.dependencies = {
 
   -- Snippets
   {'L3MON4D3/LuaSnip'},
-  {'rafamadriz/friendly-snippets'},
+  {'rezafikkri/friendly-snippets', branch = "custom"},
 }
 
 Plugin.event = 'InsertEnter'
