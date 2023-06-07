@@ -23,6 +23,7 @@ Plugin.opts = {
     bufmap('x', api.fs.cut, 'Cut file')
     bufmap('p', api.fs.paste, 'Paste file')
     bufmap('D', api.fs.trash, 'Trash file')
+    bufmap('R', api.tree.reload, 'Refresh')
   end,
 	git = {
 		ignore = false,

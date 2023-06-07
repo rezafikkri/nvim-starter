@@ -87,7 +87,10 @@ function Plugin.config()
     end,
     ['lua_ls'] = function()
       require('plugins.lsp.lua_ls')
-    end
+    end,
+		['intelephense'] = function()
+			require('plugins.lsp.intelephense')
+		end
   })
 end
 
