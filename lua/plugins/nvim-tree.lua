@@ -1,4 +1,4 @@
-local Plugin = {'kyazdani42/nvim-tree.lua'}
+local Plugin = {'nvim-tree/nvim-tree.lua'}
 
 Plugin.name = 'nvim-tree'
 
@@ -29,7 +29,7 @@ Plugin.opts = {
 		ignore = false,
 	},
 	update_focused_file = {
-		enable = true,
+		enable = false,
 		update_root = true,
 		ignore_list = {},
 	},
